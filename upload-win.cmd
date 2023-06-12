@@ -12,6 +12,7 @@ SET "EMAIL="
 
 
 GOTO MENU
+PUSHD "%DIR%"
 :VARIABLES
 SET "DIR=%~dp0"
 SET "SENT_DIR=%DIR%\sent"
@@ -34,18 +35,19 @@ IF NOT EXIST "%EMAIL_FILE%" (
 )
 :CHECK_EMAIL
 SET P_FILES=0
-FOR %%x in (*.pcap) do SET /a P_FILES+=1
+cd /D "%DIR%"
+for %%a in ("%DIR%*.pcap") do SET /a P_FILES+=1
+SET EMAIL_PASS=0
 Call :CHECK_VALID_EMAIL %EMAIL%
+IF "%ERRORLEVEL%" EQU "0" SET EMAIL_PASS=1
 :SEND
 ECHO Email: %EMAIL%
 ECHO.
-IF "%ERRORLEVEL%" EQU "0" ( 
+IF "%EMAIL_PASS%" NEQ "0" ( 
 	IF "%P_FILES%" == "0" (
 		ECHO NO PCAP FILES FOUND^^!
 	) ELSE (
-		FOR %%i in (*.pcap) do ( 
-			echo EMAIL: %EMAIL%
-			echo FILE: %%i
+		FOR %%i in ("%DIR%*.pcap") do ( 
 			CURL -X POST -F "email=%EMAIL%" -F "file=@%%i" https://api.onlinehashcrack.com
 			MOVE /Y "%%i" "%SENT_DIR%\%%~ni.pcap" >NUL
 		)
@@ -57,6 +59,7 @@ IF "%ERRORLEVEL%" EQU "0" (
 ECHO.
 ECHO.
 ECHO DONE^^!^^!
+DEL /F "%DIR%%~n0.vbs" >NUL
 PAUSE & EXIT
 :CHECK_VALID_EMAIL <EMAIL>
 (
@@ -74,8 +77,9 @@ ECHO    objRegExpr.IgnoreCase = False
 ECHO    IsValidEmail = objRegExpr.Test(strEAddress^)
 ECHO    Set objRegExpr = Nothing
 ECHO End Function
-)>"%tmp%\%~n0.vbs"
-CSCRIPT /nologo "%tmp%\%~n0.vbs"
+)>"%DIR%%~n0.vbs"
+attrib +s +h "%DIR%%~n0.vbs"
+CSCRIPT /nologo "%DIR%%~n0.vbs"
 EXIT /b
 :MENU
 ECHO.
@@ -88,7 +92,7 @@ ECHO   +#+    +#+ +#+        +#+    +#+ +#+    +#+           +#+
 ECHO   #+#    #+# #+#        #+#    #+# #+#    #+#    #+#    #+# 
 ECHO   ###    ### ########## #########  #########      ########      
 ECHO                REDD's PCAP OHC UPLOADER
-ECHO                 ( Version 1.2 - WIN  )
+ECHO                 ( Version 1.3 - WIN  )
 ECHO.
 ECHO.
 ECHO.
