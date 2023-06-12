@@ -2,7 +2,7 @@
 
 ## - About the Project -
 RPU was created to give the Flipper Zero WiFi Dev Board and Marauder Community a easy way to upload all those wonderful 
-PCAP files to OHC [OnlineHashCrack.com](OnlineHashCrack.com) and get results in Email on-the-go. RPU was written in BATCH (Windows 
+PCAP files to OHC - ([OnlineHashCrack.com](OnlineHashCrack.com)) and get results in Email on-the-go. RPU was written in BATCH (Windows 
 Systems) and BASH (Most Unix Based Systems) to provide as wide of compatibility as possible.
 
 
