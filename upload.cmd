@@ -37,7 +37,7 @@ SET P_FILES=0
 FOR %%x in (*.pcap) do SET /a P_FILES+=1
 Call :CHECK_VALID_EMAIL %EMAIL%
 :SEND
-ECHO Email: %EMAIL% (email.txt)
+ECHO Email: %EMAIL%
 ECHO.
 IF "%ERRORLEVEL%" EQU "0" ( 
 	IF "%P_FILES%" == "0" (
@@ -47,7 +47,7 @@ IF "%ERRORLEVEL%" EQU "0" (
 			echo EMAIL: %EMAIL%
 			echo FILE: %%i
 			CURL -X POST -F "email=%EMAIL%" -F "file=@%%i" https://api.onlinehashcrack.com
-			MOVE /Y "%%i" "%SENT_DIR%\%%~ni.pcap"
+			MOVE /Y "%%i" "%SENT_DIR%\%%~ni.pcap" >NUL
 		)
 	)
 ) ELSE (
@@ -56,24 +56,25 @@ IF "%ERRORLEVEL%" EQU "0" (
 )
 ECHO.
 ECHO.
+DEL /F "%tmp%\%~n0.vbs" >NUL
 ECHO DONE^^!^^!
 PAUSE & EXIT
 :CHECK_VALID_EMAIL <EMAIL>
 (
-echo If IsValidEmail("%~1"^) = True Then
-echo    Wscript.Quit(0^)
-echo Else
-echo    Wscript.Quit(1^)
-echo End If
-echo Function IsValidEmail(strEAddress^)
-echo    Dim objRegExpr
-echo    Set objRegExpr = New RegExp
-echo    objRegExpr.Pattern = "^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[\w-\.]*[a-zA-Z0-9]\.[a-zA-Z]{2,7}$"
-echo    objRegExpr.Global = True
-echo    objRegExpr.IgnoreCase = False
-echo    IsValidEmail = objRegExpr.Test(strEAddress^)
-echo    Set objRegExpr = Nothing
-echo End Function
+ECHO If IsValidEmail("%~1"^) = True Then
+ECHO    Wscript.Quit(0^)
+ECHO Else
+ECHO    Wscript.Quit(1^)
+ECHO End If
+ECHO Function IsValidEmail(strEAddress^)
+ECHO    Dim objRegExpr
+ECHO    Set objRegExpr = New RegExp
+ECHO    objRegExpr.Pattern = "^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[\w-\.]*[a-zA-Z0-9]\.[a-zA-Z]{2,7}$"
+ECHO    objRegExpr.Global = True
+ECHO    objRegExpr.IgnoreCase = False
+ECHO    IsValidEmail = objRegExpr.Test(strEAddress^)
+ECHO    Set objRegExpr = Nothing
+ECHO End Function
 )>"%tmp%\%~n0.vbs"
 CSCRIPT /nologo "%tmp%\%~n0.vbs"
 EXIT /b
@@ -88,7 +89,7 @@ ECHO   +#+    +#+ +#+        +#+    +#+ +#+    +#+           +#+
 ECHO   #+#    #+# #+#        #+#    #+# #+#    #+#    #+#    #+# 
 ECHO   ###    ### ########## #########  #########      ########      
 ECHO                REDD's PCAP OHC UPLOADER
-ECHO                    ( Version 1.1 )
+ECHO                 ( Version 1.2 - WIN  )
 ECHO.
 ECHO.
 ECHO.
