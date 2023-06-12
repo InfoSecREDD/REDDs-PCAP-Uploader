@@ -56,7 +56,6 @@ IF "%ERRORLEVEL%" EQU "0" (
 )
 ECHO.
 ECHO.
-DEL /F "%tmp%\%~n0.vbs" >NUL
 ECHO DONE^^!^^!
 PAUSE & EXIT
 :CHECK_VALID_EMAIL <EMAIL>
