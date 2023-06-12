@@ -69,7 +69,7 @@ function HEADER(){
         echo "  #+#    #+# #+#        #+#    #+# #+#    #+#    #+#    #+#     "
         echo "  ###    ### ########## #########  #########      ########      "
         echo "                 REDD's PCAP OHC UPLOADER"
-        echo "                  ( Version 1.2 - UNIX )"
+        echo "                  ( Version 1.3 - UNIX )"
         echo ""
         echo ""
         echo ""
