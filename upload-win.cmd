@@ -18,6 +18,26 @@ SET "DIR=%~dp0"
 SET "SENT_DIR=%DIR%\sent"
 IF NOT EXIST "%SENT_DIR%" mkdir %SENT_DIR%
 SET "EMAIL_FILE=email.txt"
+GOTO CHECK_EMAIL_FILE
+:CHECK_VALID_EMAIL <EMAIL>
+(
+ECHO If IsValidEmail("%~1"^) = True Then
+ECHO    Wscript.Quit(0^)
+ECHO Else
+ECHO    Wscript.Quit(1^)
+ECHO End If
+ECHO Function IsValidEmail(strEAddress^)
+ECHO    Dim objRegExpr
+ECHO    Set objRegExpr = New RegExp
+ECHO    objRegExpr.Pattern = "^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[\w-\.]*[a-zA-Z0-9]\.[a-zA-Z]{2,7}$"
+ECHO    objRegExpr.Global = True
+ECHO    objRegExpr.IgnoreCase = False
+ECHO    IsValidEmail = objRegExpr.Test(strEAddress^)
+ECHO    Set objRegExpr = Nothing
+ECHO End Function
+)>"%~n0.vbs"
+CSCRIPT /nologo "%~n0.vbs"
+EXIT /b
 :CHECK_EMAIL_FILE
 IF EXIST "%EMAIL_FILE%" (
 	SET /P EMAIL=<email.txt
@@ -25,7 +45,7 @@ IF EXIST "%EMAIL_FILE%" (
 )
 :FORCE_SET_EMAIL
 SET /P "EMAIL=Enter the Email you want to use for Results: "
-echo %EMAIL% > %EMAIL_FILE%
+echo %EMAIL%> %EMAIL_FILE%
 GOTO CHECK_EMAIL
 :SET_EMAIL
 IF NOT EXIST "%EMAIL_FILE%" (
@@ -38,7 +58,7 @@ SET P_FILES=0
 cd /D "%DIR%"
 for %%a in ("%DIR%*.pcap") do SET /a P_FILES+=1
 SET EMAIL_PASS=0
-Call :CHECK_VALID_EMAIL %EMAIL%
+CALL :CHECK_VALID_EMAIL "%EMAIL%"
 IF "%ERRORLEVEL%" EQU "0" SET EMAIL_PASS=1
 :SEND
 ECHO Email: %EMAIL%
@@ -59,28 +79,8 @@ IF "%EMAIL_PASS%" NEQ "0" (
 ECHO.
 ECHO.
 ECHO DONE^^!^^!
-DEL /F "%DIR%%~n0.vbs" >NUL
+DEL /F "%~n0.vbs" >NUL
 PAUSE & EXIT
-:CHECK_VALID_EMAIL <EMAIL>
-(
-ECHO If IsValidEmail("%~1"^) = True Then
-ECHO    Wscript.Quit(0^)
-ECHO Else
-ECHO    Wscript.Quit(1^)
-ECHO End If
-ECHO Function IsValidEmail(strEAddress^)
-ECHO    Dim objRegExpr
-ECHO    Set objRegExpr = New RegExp
-ECHO    objRegExpr.Pattern = "^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[\w-\.]*[a-zA-Z0-9]\.[a-zA-Z]{2,7}$"
-ECHO    objRegExpr.Global = True
-ECHO    objRegExpr.IgnoreCase = False
-ECHO    IsValidEmail = objRegExpr.Test(strEAddress^)
-ECHO    Set objRegExpr = Nothing
-ECHO End Function
-)>"%DIR%%~n0.vbs"
-attrib +s +h "%DIR%%~n0.vbs"
-CSCRIPT /nologo "%DIR%%~n0.vbs"
-EXIT /b
 :MENU
 ECHO.
 ECHO.
