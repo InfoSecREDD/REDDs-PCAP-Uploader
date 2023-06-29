@@ -12,9 +12,10 @@ SET "EMAIL="
 
 
 GOTO MENU
-PUSHD "%DIR%"
 :VARIABLES
 SET "DIR=%~dp0"
+PUSHD "%DIR%"
+cd /D "%DIR%"
 SET "SENT_DIR=%DIR%\sent"
 IF NOT EXIST "%SENT_DIR%" mkdir %SENT_DIR%
 SET "EMAIL_FILE=email.txt"
@@ -50,7 +51,7 @@ GOTO CHECK_EMAIL
 :SET_EMAIL
 IF NOT EXIST "%EMAIL_FILE%" (
 	SET /P "EMAIL=Enter the Email you want to use for Results: "
-	echo !EMAIL! > !EMAIL_FILE!
+	echo !EMAIL!> !EMAIL_FILE!
 	GOTO CHECK_EMAIL
 )
 :CHECK_EMAIL
