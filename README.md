@@ -2,7 +2,7 @@
 
 ## - About the Project -
 RPU was created to give the Flipper Zero WiFi Dev Board and Marauder Community a easy way to upload all those wonderful 
-PCAP files to OHC - ([OnlineHashCrack.com](OnlineHashCrack.com)) and get results in Email on-the-go. RPU was written in BATCH (Windows 
+PCAP files to OHC - ([OnlineHashCrack.com](https://OnlineHashCrack.com)) and get results in Email on-the-go. RPU was written in BATCH (Windows 
 Systems) and BASH (Most Unix Based Systems) to provide as wide of compatibility as possible.
 
 
@@ -37,6 +37,10 @@ IT teams prefer using packet monitoring software to perform crucial tasks, such 
 ## Reset Email Address
 - To reset the EMAIL used to receive results, just delete "email.txt" in the directory you have the script running. The script will prompt you for your EMAIL next time you run the script.
 
+
+## Known Issues
+- If USERNAME OR DIRECT PATH for Windows has a SPACE in it (Example: "Test User" OR "C:\USERS\Test User\PCAPS") Script throws errors.
+- Some AV's (Anti-Viruses/Firewalls) block scripts from using CURL correctly on Windows.
 
 
 ## Credits:
