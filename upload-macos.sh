@@ -5,7 +5,7 @@
 # SET YOUR EMAIL BELOW OR SET IT IN THE SCRIPT!
 
 
-EMAIL=""
+EMAIL="dini.andreas@gmail.com"
 
 
 
