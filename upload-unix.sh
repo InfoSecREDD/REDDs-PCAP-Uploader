@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Credits: REDD
 # TARGET OS: Unix - BASH/Shell Script
 # Version: 2.1 - Unified UNIX/Linux Version
